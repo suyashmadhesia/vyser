@@ -1,7 +1,7 @@
 from typing import List
 
-from diagnostics.diagnostic_bag import DiagnosticBag
-from diagnostics.text_span import TextSpan
+from vyser.diagnostics.diagnostic_bag import DiagnosticBag
+from vyser.diagnostics.text_span import TextSpan
 
 from .syntax_facts import *
 from .syntax_kind import *

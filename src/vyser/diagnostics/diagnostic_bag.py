@@ -1,6 +1,6 @@
 from typing import List
 
-from syntax.syntax_kind import SyntaxKind
+from vyser.syntax.syntax_kind import SyntaxKind
 
 from .diagnostic import Diagnostic
 from .text_span import TextSpan

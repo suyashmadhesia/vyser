@@ -1,4 +1,4 @@
-from diagnostics.text_span import TextSpan
+from vyser.diagnostics.text_span import TextSpan
 
 from .iterator import Iterator
 

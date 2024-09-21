@@ -1,6 +1,6 @@
 from typing import List
 
-from diagnostics.diagnostic_bag import DiagnosticBag
+from vyser.diagnostics.diagnostic_bag import DiagnosticBag
 
 from .binary_expression_syntax import BinaryExpressionSyntax
 from .expression_syntax import ExpressionSyntax

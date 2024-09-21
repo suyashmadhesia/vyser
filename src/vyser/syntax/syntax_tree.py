@@ -1,4 +1,4 @@
-from diagnostics.diagnostic_bag import DiagnosticBag
+from vyser.diagnostics.diagnostic_bag import DiagnosticBag
 
 from .expression_syntax import ExpressionSyntax
 from .syntax_kind import SyntaxKind
