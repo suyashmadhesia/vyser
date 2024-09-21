@@ -1,0 +1,7 @@
+/venv/
+/env/
+/logs/*
+/logs/
+*.pyc
+*/.DS_Store
+*/.DS_STORE
