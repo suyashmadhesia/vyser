@@ -1,8 +1,9 @@
-from .syntax_kind import SyntaxKind
-from .expression_syntax import ExpressionSyntax
 from typing import List
-from .syntax_node import SyntaxNode
+
+from .expression_syntax import ExpressionSyntax
 from .iterator import Iterator
+from .syntax_kind import SyntaxKind
+from .syntax_node import SyntaxNode
 
 
 class UnaryExpressionSyntax(ExpressionSyntax):

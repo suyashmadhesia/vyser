@@ -1,6 +1,6 @@
 from .expression_syntax import ExpressionSyntax
-from .syntax_kind import SyntaxKind
 from .iterator import Iterator
+from .syntax_kind import SyntaxKind
 
 
 class ParenthesizedExpressionSyntax(ExpressionSyntax):
@@ -27,4 +27,6 @@ class ParenthesizedExpressionSyntax(ExpressionSyntax):
 
     @property
     def get_children(self):
-        return Iterator([self.open_parenthesis, self.expression, self.close_parenthesis])
+        return Iterator(
+            [self.open_parenthesis, self.expression, self.close_parenthesis]
+        )

@@ -1,11 +1,11 @@
 from diagnostics.text_span import TextSpan
+
 from .iterator import Iterator
 
 
 class SyntaxNode:
     def __init__(self) -> None:
         pass
-
 
 
 class SyntaxToken(SyntaxNode):
@@ -30,7 +30,6 @@ class SyntaxToken(SyntaxNode):
     @property
     def value(self):
         return self._value
-    
 
     @property
     def span(self):
@@ -39,6 +38,6 @@ class SyntaxToken(SyntaxNode):
     @property
     def get_children(self):
         return Iterator([])
-    
+
     def __repr__(self) -> str:
         return f"{self.kind.name} {self.text}"

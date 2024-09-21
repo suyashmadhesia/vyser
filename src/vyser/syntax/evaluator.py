@@ -1,15 +1,15 @@
 from typing import Dict
 
-from syntax.expression_syntax import ExpressionSyntax
-from syntax.binary_expression_syntax import BinaryExpressionSyntax
-from syntax.unary_expression_syntax import UnaryExpressionSyntax
-from syntax.literal_expression_syntax import LiteralExpressionSyntax
-from syntax.parenthesis_expression_syntax import ParenthesizedExpressionSyntax
-from syntax.name_expression_syntax import NameExpressionSyntax
-from syntax.syntax_kind import SyntaxKind
-from syntax.syntax_token import SyntaxToken
 from diagnostics.diagnostic_bag import DiagnosticBag
-from diagnostics.text_span import TextSpan
+
+from .binary_expression_syntax import BinaryExpressionSyntax
+from .expression_syntax import ExpressionSyntax
+from .literal_expression_syntax import LiteralExpressionSyntax
+from .name_expression_syntax import NameExpressionSyntax
+from .parenthesis_expression_syntax import ParenthesizedExpressionSyntax
+from .syntax_kind import SyntaxKind
+from .syntax_token import SyntaxToken
+from .unary_expression_syntax import UnaryExpressionSyntax
 
 
 class Evaluator:
@@ -28,31 +28,36 @@ class Evaluator:
                 return instance[key]
             elif isinstance(instance, object):
                 return getattr(instance, key)
-            raise Exception(f'{key}')
+            raise Exception(f"{key}")
         except Exception as e:
             return e
 
     def _get_identifier_value(self, identifier_token: SyntaxToken):
         identifier_name = identifier_token.text
-        instance, *attrs = identifier_name.split('.')
+        instance, *attrs = identifier_name.split(".")
         if not instance in self._data:
-            self._diagnostics.report_undefined_name(
-                identifier_token.span, instance)
+            self._diagnostics.report_undefined_name(identifier_token.span, instance)
             return None
         current_data = self._data.get(instance)
         for key in attrs:
             current_data = self.access_value(current_data, key)
             if isinstance(current_data, Exception):
                 self._diagnostics.report_undefined_name(
-                    identifier_token.span, f"{current_data.args[0]} in {identifier_token.text}")
+                    identifier_token.span,
+                    f"{current_data.args[0]} in {identifier_token.text}",
+                )
                 return None
         return current_data
 
     def _validate_int_binary_expression(self, left, right):
-        return (type(left) == int and type(right) == int) or type(left) == float and type(right) == float
+        return (
+            (type(left) == int and type(right) == int)
+            or type(left) == float
+            and type(right) == float
+        )
 
     def _validate_bool_binary_expression(self, left, right):
-        return (type(left) == bool and type(right) == bool)
+        return type(left) == bool and type(right) == bool
 
     def evaluate(self):
         return self._evaluate_expression(self._root)
@@ -84,49 +89,57 @@ class Evaluator:
                 isValid = self._validate_int_binary_expression(left, right)
                 if not isValid:
                     self._diagnostics.report_undefined_binary_operator(
-                        node.operator_token.span, '+', type(left), type(right))
+                        node.operator_token.span, "+", type(left), type(right)
+                    )
                 return left + right
             if node.operator_token.kind == SyntaxKind.MinusToken:
                 isValid = self._validate_int_binary_expression(left, right)
                 if not isValid:
                     self._diagnostics.report_undefined_binary_operator(
-                        node.operator_token.span, '-', type(left), type(right))
+                        node.operator_token.span, "-", type(left), type(right)
+                    )
                 return left - right
             if node.operator_token.kind == SyntaxKind.StarToken:
                 isValid = self._validate_int_binary_expression(left, right)
                 if not isValid:
                     self._diagnostics.report_undefined_binary_operator(
-                        node.operator_token.span, '*', type(left), type(right))
+                        node.operator_token.span, "*", type(left), type(right)
+                    )
                 return left * right
             if node.operator_token.kind == SyntaxKind.SlashToken:
                 isValid = self._validate_int_binary_expression(left, right)
                 if not isValid:
                     self._diagnostics.report_undefined_binary_operator(
-                        node.operator_token.span, '/', type(left), type(right))
+                        node.operator_token.span, "/", type(left), type(right)
+                    )
                 return left / right
             if node.operator_token.kind == SyntaxKind.SlashSlashToken:
                 isValid = self._validate_int_binary_expression(left, right)
                 if not isValid:
                     self._diagnostics.report_undefined_binary_operator(
-                        node.operator_token.span, '//', type(left), type(right))
+                        node.operator_token.span, "//", type(left), type(right)
+                    )
                 return left // right
             if node.operator_token.kind == SyntaxKind.AmpersandAmpersandToken:
                 isValid = self._validate_bool_binary_expression(left, right)
                 if not isValid:
                     self._diagnostics.report_undefined_binary_operator(
-                        node.operator_token.span, '&&', type(left), type(right))
+                        node.operator_token.span, "&&", type(left), type(right)
+                    )
                 return left and right
             if node.operator_token.kind == SyntaxKind.PipePipeToken:
                 isValid = self._validate_bool_binary_expression(left, right)
                 if not isValid:
                     self._diagnostics.report_undefined_binary_operator(
-                        node.operator_token.span, '&&', type(left), type(right))
+                        node.operator_token.span, "&&", type(left), type(right)
+                    )
                 return left and right
             if node.operator_token.kind == SyntaxKind.BangEqualToken:
                 isValid = self._validate_bool_binary_expression(left, right)
                 if not isValid:
                     self._diagnostics.report_undefined_binary_operator(
-                        node.operator_token.span, '||', type(left), type(right))
+                        node.operator_token.span, "||", type(left), type(right)
+                    )
                 return left or right
             if node.operator_token.kind == SyntaxKind.BangEqualToken:
                 return left != right
@@ -141,5 +154,6 @@ class Evaluator:
             if node.operator_token.kind == SyntaxKind.LesserThanToken:
                 return left < right
             raise Exception(
-                f"Invalid Binary operator token '{node.operator_token.text}'")
+                f"Invalid Binary operator token '{node.operator_token.text}'"
+            )
         raise Exception(f"Invalid node kind '{node.kind.name}'")

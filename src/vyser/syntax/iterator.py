@@ -1,5 +1,6 @@
 from typing import Iterable
 
+
 class Iterator(Iterable):
 
     def __init__(self, data) -> None:
@@ -8,7 +9,7 @@ class Iterator(Iterable):
 
     def __iter__(self):
         return self
-    
+
     def __next__(self):
         if self._index < len(self._data):
             result = self._data[self._index]
@@ -23,7 +24,6 @@ class Iterator(Iterable):
 
     def last_or_default(self, default_value=None):
         return self._data[-1] if self.any() else default_value
-    
 
     def extend(self, data):
         self._data.extend(data)

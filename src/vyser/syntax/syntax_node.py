@@ -8,7 +8,6 @@ class SyntaxNode:
     def kind(self):
         raise NotImplementedError
 
-
     @property
     @abstractmethod
     def get_children(self):

@@ -29,6 +29,6 @@ class SyntaxKind(Enum):
     LesserThanToken = 24
     GreaterThanEqualToken = 25
     LesserThanEqualToken = 26
-    NilToken=27
+    NilToken = 27
     NameExpression = 28
     SlashSlashToken = 29

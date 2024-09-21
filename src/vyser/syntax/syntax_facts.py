@@ -15,11 +15,20 @@ class SyntaxFacts:
 
     @staticmethod
     def get_binary_operator_precedence(kind: SyntaxKind) -> int:
-        if kind == SyntaxKind.StarToken or kind == SyntaxKind.SlashToken or kind == SyntaxKind.SlashSlashToken:
+        if (
+            kind == SyntaxKind.StarToken
+            or kind == SyntaxKind.SlashToken
+            or kind == SyntaxKind.SlashSlashToken
+        ):
             return 6
         if kind == SyntaxKind.PlusToken or kind == SyntaxKind.MinusToken:
             return 5
-        if kind == SyntaxKind.GreaterThanToken or kind == SyntaxKind.GreaterThanEqualToken or kind == SyntaxKind.LesserThanToken or kind == SyntaxKind.LesserThanEqualToken:
+        if (
+            kind == SyntaxKind.GreaterThanToken
+            or kind == SyntaxKind.GreaterThanEqualToken
+            or kind == SyntaxKind.LesserThanToken
+            or kind == SyntaxKind.LesserThanEqualToken
+        ):
             return 4
         if kind == SyntaxKind.EqualEqualToken or kind == SyntaxKind.BangEqualToken:
             return 3
@@ -38,10 +47,13 @@ class SyntaxFacts:
         if text == "nil":
             return SyntaxKind.NilToken
         return SyntaxKind.BadToken
-    
+
     @staticmethod
     def get_keyword_value(token):
-        if token.kind == SyntaxKind.TrueKeywordToken or token.kind == SyntaxKind.FalseKeywordToken:
+        if (
+            token.kind == SyntaxKind.TrueKeywordToken
+            or token.kind == SyntaxKind.FalseKeywordToken
+        ):
             return token.kind == SyntaxKind.TrueKeywordToken
         elif token.kind == SyntaxKind.NilToken:
             return None

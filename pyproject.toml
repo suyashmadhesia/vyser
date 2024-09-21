@@ -1,0 +1,40 @@
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
+profile = "black"
+skip = ["venv", "__pycache__"]
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+include = '\.pyi?$'
+extend-exclude = '''
+# Exclude directories that should not be formatted.
+^/(\.git|\.venv|__pycache__)/$
+'''
+
+[project]
+name = "vyser"
+version = "0.0.1"
+authors = [
+  { name="Suyash Maddhessiya", email="suyashmadhesia@gmail.com" },
+]
+description = "A simple rule engine for creating business logic"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/suyashmadhesia/vyser"
+Issues = "https://github.com/suyashmadhesia/vyser/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

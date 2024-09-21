@@ -5,3 +5,6 @@
 *.pyc
 */.DS_Store
 */.DS_STORE
+main.py
+/dist/
+*/vyser.egg-info/*
