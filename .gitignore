@@ -6,5 +6,6 @@
 */.DS_Store
 */.DS_STORE
 main.py
-/dist/
+/dist/*
 */vyser.egg-info/*
+/build/*
