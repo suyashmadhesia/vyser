@@ -1,0 +1,1 @@
+A simple rule engine in python for creating business logic

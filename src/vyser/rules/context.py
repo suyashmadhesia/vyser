@@ -1,7 +1,7 @@
 from typing import Callable, List
 
-from rules.base import Condition
-from rules.factory import RuleFactory
+from .base import Condition
+from .factory import RuleFactory
 
 # This is the base class for all the execution in the pipeline
 
@@ -13,8 +13,8 @@ class RuleContext:
 
     def __init__(self, rule_name: str) -> None:
         self._rule_name = rule_name
-        self._id = 0
-        self._handlers = {}
+        self._when_all_handlers = []
+        self._when_any_handlers = []
 
     def __enter__(self):
         RuleFactory.register_rule_context(self)
@@ -23,10 +23,41 @@ class RuleContext:
     def __exit__(self, *args, **kwargs):
         return True
 
-    def add_rule_callback(self, func: Callable, *args: List[Condition]):
-        self._handlers[self._id] = {self.CONDITIONS: args, self.HANDLER: func}
-        self._id += 1
+    def add_when_all_rule_callback(self, func: Callable, args):
+        conditions: List[Condition] = []
+        for arg in args:
+            if not isinstance(arg, str):
+                raise TypeError("Argument must be a string conditions")
+            condition = Condition(arg)
+            conditions.append(condition)
+        self._when_all_handlers.append(
+            {self.CONDITIONS: conditions, self.HANDLER: func}
+        )
 
-    def execute_rule(self):
-        for k, value in self._handlers.items():
-            value[self.HANDLER](self)
+    def add_when_any_rule_callback(self, func: Callable, args):
+        conditions: List[Condition] = []
+        for arg in args:
+            if not isinstance(arg, str):
+                raise TypeError("Argument must be a string conditions")
+            condition = Condition(arg)
+            conditions.append(condition)
+        self._when_any_handlers.append(
+            {self.CONDITIONS: conditions, self.HANDLER: func}
+        )
+
+    def _execute_conditions(self, handler, data, result_operator):
+        conditions = handler[self.CONDITIONS]
+        result = [condition.evaluate(data) for condition in conditions]
+        return result_operator(result)
+
+    def execute_rule(self, data: dict):
+        for handler in self._when_all_handlers:
+            result = self._execute_conditions(handler, data, all)
+            if result:
+                handler[self.HANDLER](self)
+
+        for handler in self._when_any_handlers:
+            result = self._execute_conditions(handler, data, any)
+            if result:
+                handler[self.HANDLER](self)
+    

@@ -7,7 +7,7 @@ from .factory import *
 
 def when_all(context: RuleContext, *args: List[Condition]):
     def decorator(func: Callable):
-        context.add_rule_callback(func, *args)
+        context.add_when_all_rule_callback(func, args)
 
         def wrapper(c: RuleContext):
             return func(c)
@@ -19,7 +19,7 @@ def when_all(context: RuleContext, *args: List[Condition]):
 
 def when_any(context: RuleContext, *args: List[Condition]):
     def decorator(func: Callable):
-        context.add_rule_callback(func, *args)
+        context.add_when_any_rule_callback(func, args)
 
         def wrapper(c: RuleContext):
             return func(c)
@@ -42,7 +42,5 @@ def remove_context_attrs(object, data):
 def assert_rule(rule_name: str, data: dict):
     context = RuleFactory.get_rule_context(rule_name)
     set_context_attrs(context, data)
-    # TODO: perform rule validations
-    context.execute_rule()
+    context.execute_rule(data)
     remove_context_attrs(context, data)
-    print(context.__dict__)
